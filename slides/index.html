@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>A-Frame workshop</title>
+        <link rel="icon" href="favicon.ico">
+		<meta name="description" content="A-Frame workshop">
+		<meta name="author" content="Andrzej Mazur">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/end3r.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script>
+			if(window.location.search.match(/print-pdf/gi)) {
+				var link = document.createElement('link');
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName('head')[0].appendChild(link);
+			}
+		</script>
+		<!--[if lt IE 9]><script src="lib/js/html5shiv.js"></script><![endif]-->
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<section>
+						<h1>A-Frame workshop</h1>
+						<img style="border: 0; background: none; box-shadow: none;" src="img/logo-aframe.png" alt="A-Frame" />
+						<p>
+							<small><a href="http://end3r.com">Andrzej Mazur</a> &bull; <a href="http://twitter.com/end3r">@end3r</a> &bull; <a href="http://enclavegames.com">Enclave Games</a><br />SwingDev office, Nowy Świat 35/15, Warsaw, Poland, April 14th 2018</small>
+						</p>
+					</section>
+				</section>
+
+				<section>
+					<h2>Andrzej Mazur</h2>
+					<img style="float: right; width: 30%;" src="img/andrzej-mazur-2014.png" alt="Andrzej Mazur" />
+					<ul>
+						<li>Indie gamedev focusing on HTML5</li>
+						<li><a href="http://end3r.com/">end3r.com</a> website</li>
+						<li><a href="http://enclavegames.com/">Enclave Games</a> studio</li>
+						<li><a href="http://js13kgames.com/">js13kGames</a> competition</li>
+						<li><a href="http://gamedevjsweekly.com/">Gamedev.js Weekly</a> newsletter</li>
+						<li><a href="http://gamedevjs.com/">Gamedev.js</a> meetups and workshops</li>
+						<li><a href="https://wiki.mozilla.org/TechSpeakers">Mozilla Tech Speakers</a> program</li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>Schedule</h2>
+						<ul>
+							<li>10:00 - 10:30 | Welcome and introduction</li>
+							<!-- <li>10:30 - 11:45 | Setup, physics and collisions</li> -->
+							<li>11:45 - 12:00 | Coffee break</li>
+							<!-- <li>12:00 - 12:45 | Textures and models, camera and lighting</li> -->
+							<li>12:45 - 13:30 | Lunch</li>
+							<!-- <li>13:30 - 15:00 | Gameplay and fonts, audio and details</li> -->
+							<li>15:00 - 15:15 | Coffee break</li>
+							<li>15:15 - 16:00 | Closing and Q&amp;A</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Outline</h2>
+						<ul style="list-style-type:none;">
+							<li>0. Template and intro</li>
+							<li>1. Objects and entities</li>
+							<li>2. Physics and collisions</li>
+							<li>3. Environment and spawn points</li>
+							<li>4. Images and models</li>
+							<li>5. Lighting and shadows</li>
+							<li>6. Text and fonts</li>
+							<li>7. Sounds and music</li>
+							<li>8. Gameplay and score</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Setup</h2>
+						<p>Source code: <a href="#">LINK</a></p>
+						<p>Live: <a href="#">LINK</a></p>
+						<p>Slides: <a href="#">LINK</a></p>
+					</section>
+					<section>
+						<h2>Setup</h2>
+						<p>Local environment - open up the console</p>
+						<pre><code>cd [folder]
+python -v
+python -m SimpleHTTPServer [port]</code></pre>
+						<pre><code>cd [folder]
+python3 --version
+python3 -m http.server [port]</code></pre>
+						<p><a href="http://0.0.0.0:8000">http://0.0.0.0:8000</a></p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Template and intro</h2>
+						<p>Structure of the document.</p>
+					</section>
+					<section>
+						<h2>HTML structure</h2>
+						<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Quack Whack | Step 0: Template&lt;/title&gt;
+  &lt;script src="https://aframe.io/releases/0.8.0/aframe.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+// ...
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+					</section>
+					<section>
+						<h2>A-Frame scene with the box</h2>
+						<pre><code>&lt;a-scene&gt;
+    &lt;a-box color="#0095DD" position="0 1 -3" rotation="20 40 0"&gt;&lt;/a-box&gt;
+&lt;/a-scene&gt;</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Objects and entities</h2>
+						<p>Camera, sky, plane, entity.</p>
+					</section>
+					<section>
+						<h2>Debug statistics</h2>
+						<pre><code>&lt;a-scene stats&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Camera with cursor</h2>
+						<pre><code>&lt;a-camera look-controls position="0 1.5 0"&gt;
+    &lt;a-cursor&gt;&lt;/a-cursor&gt;
+&lt;/a-camera&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Sky</h2>
+						<pre><code>&lt;a-sky color="#DDDDDD"&gt;&lt;/a-sky&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Plane</h2>
+						<pre><code>&lt;a-plane
+  color="#999999"
+  rotation="-90 0 0"
+  width="100"
+  height="100"&gt;
+&lt;/a-plane&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Box as entity</h2>
+						<pre><code>&lt;a-entity
+  geometry="box"
+  material="color: #0095DD"
+  position="0 1 -3"
+  rotation="20 40 0"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+				</section>				
+
+				<section>
+					<section>
+						<h2>Physics and collisions</h2>
+						<ul>
+							<li>Static-body, dynamic-body, collision detection.</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Script in the &lt;head&gt;</h2>
+						<pre><code>&lt;script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v3.0.2/dist/aframe-physics-system.min.js"&gt;
+&lt;/script&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Weapon in the camera</h2>
+						<pre><code>&lt;a-cylinder
+  position="1 -0.5 -4.5"
+  id="weapon"
+  radius="0.8"
+  height="0.1"
+  opacity="0.5"
+  rotation="15 -15 0"
+  static-body&gt;
+&lt;/a-cylinder&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Ball sphere</h2>
+						<pre><code>&lt;a-sphere
+  id="ball"
+  position="0 0.5 -4"
+  radius="0.3"
+  color="yellow"
+  dynamic-body&gt;
+&lt;/a-sphere&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Solid ground</h2>
+						<pre><code>&lt;a-plane
+  color="#999999"
+  rotation="-90 0 0"
+  width="100"
+  height="100"
+  static-body&gt;
+&lt;/a-plane&gt;</code></pre>
+					</section>
+					<section>
+						<h2>JavaScript code</h2>
+						<pre><code>&lt;script&gt;
+const qS = (selector) => document.querySelector(selector);
+let hit = false;
+let resetId = 0;
+
+const resetBall = () => {
+  clearTimeout(resetId);
+  qS("#ball").body.position.set(0, 0.5, -4);
+  qS("#ball").body.velocity.set(0,8,0);
+  qS("#ball").body.angularVelocity.set(0,0,0);
+  hit = false;
+  resetId = setTimeout(resetBall,4000);
+}
+
+setTimeout(resetBall,4000);
+&lt;/script&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Collision function</h2>
+						<pre><code>&lt;script&gt;
+// ...
+
+qS("#weapon").addEventListener('collide', (e) => {
+  let ball = qS("#ball");
+  if(e.detail.body.id === ball.body.id &amp;&amp; !hit) {
+    hit = true;
+    clearTimeout(resetId);
+    resetId = setTimeout(resetBall,4000);
+  }
+});
+
+setTimeout(resetBall,4000);
+&lt;/script&gt;</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Environment and spawn points</h2>
+						<p>Boxes with holes.</p>
+					</section>
+					<section>
+						<h2>A box with black hole</h2>
+						<pre><code>&lt;a-box
+  position="0 0.5 -4"
+  color="#0095DD"
+  width="8"
+  height="1.25"
+  depth="1"&gt;
+&lt;/a-box&gt;
+&lt;a-entity
+  position="0 1.13 -4"
+  rotation="-90 0 0"
+  geometry="primitive: circle; radius: 0.45"
+  material="color: black;"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>3 boxes, 5 holes</h2>
+						<pre><code>&lt;a-box position="0 0.5 -4" color="#0095DD" width="8" height="1.25" depth="1"&gt;&lt;/a-box&gt;
+&lt;a-entity position="-3 1.13 -4" rotation="-90 0 0" geometry="primitive: circle; radius: 0.45" material="color: black;"&gt;&lt;/a-entity&gt;
+&lt;a-entity position="0 1.13 -4" rotation="-90 0 0" geometry="primitive: circle; radius: 0.45" material="color: black;"&gt;&lt;/a-entity&gt;
+&lt;a-entity position="3 1.13 -4" rotation="-90 0 0" geometry="primitive: circle; radius: 0.45" material="color: black;"&gt;&lt;/a-entity&gt;
+
+&lt;a-box position="-4.5 0.5 -2.5" color="#0095DD" width="1" height="1.25" depth="4"&gt;&lt;/a-box&gt;
+&lt;a-entity position="-4.5 1.13 -2" rotation="-90 0 0" geometry="primitive: circle; radius: 0.3" material="color: black;"&gt;&lt;/a-entity&gt;
+
+&lt;a-box position="4.5 0.5 -2.5" color="#0095DD" width="1" height="1.25" depth="4"&gt;&lt;/a-box&gt;
+&lt;a-entity position="4.5 1.13 -2" rotation="-90 0 0" geometry="primitive: circle; radius: 0.3" material="color: black;"&gt;&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Behold... a pixelated duck!</h2>
+						<pre><code>&lt;a-entity id="ball" scale="0.75 0.75 0.75" position="0 0.5 -4" rotation="0 0 0" dynamic-body&gt;
+  &lt;a-box position="0 0.5 0" id="body" color="#FF9500" width="1" height="0.5" depth="0.5"&gt;&lt;/a-box&gt;
+  &lt;a-box position="0.1 0.5 0.25" id="wing-left" color="black" width="0.5" height="0.25" depth="0.25"&gt;&lt;/a-box&gt;
+  &lt;a-box position="0.1 0.5 -0.25" id="wing-right" color="black" width="0.5" height="0.25" depth="0.25"&gt;&lt;/a-box&gt;
+  &lt;a-box position="-0.5 0.75 0" id="tail" color="black" width="0.1" height="0.1" depth="0.4"&gt;&lt;/a-box&gt;
+
+  &lt;a-box position="0.2 0.85 0" id="head" color="black" width="0.4" height="0.25" depth="0.4"&gt;&lt;/a-box&gt;
+  &lt;a-box position="0.5 0.85 0" id="nose" color="#FF9500" width="0.2" height="0.1" depth="0.1"&gt;&lt;/a-box&gt;
+
+  &lt;a-box position="0.4 0.91 0.12" id="eye-left" color="#FF9500" width="0.02" height="0.1" depth="0.1"&gt;&lt;/a-box&gt;
+  &lt;a-box position="0.41 0.91 0.12" id="pupil-left" color="black" width="0.004" height="0.02" depth="0.02"&gt;&lt;/a-box&gt;
+
+  &lt;a-box position="0.4 0.91 -0.12" id="eye-right" color="#FF9500" width="0.02" height="0.1" depth="0.1"&gt;&lt;/a-box&gt;
+  &lt;a-box position="0.41 0.91 -0.12" id="pupil-right" color="black" width="0.004" height="0.02" depth="0.02"&gt;&lt;/a-box&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Images and models</h2>
+						<p>Adding the visuals.</p>
+					</section>
+					<section>
+						<h2>Assets</h2>
+						<pre><code>&lt;a-assets&gt;
+  &lt;img id="sky" src="img/sky-pattern.png"&gt;
+  &lt;img id="grass" src="img/grass-pattern.png"&gt;
+  &lt;img id="wood" src="img/wood.png"&gt;
+  &lt;a-asset-item id="duck" src="models/duck/scene.gltf"&gt;&lt;/a-asset-item&gt;
+  &lt;a-asset-item id="racquet" src="models/racquet/scene.gltf"&gt;&lt;/a-asset-item&gt;
+&lt;/a-assets&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Sky pattern</h2>
+						<pre><code>&lt;a-sky color="#DDDDDD" src="#sky"&gt;&lt;/a-sky&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Grass pattern</h2>
+						<pre><code>&lt;a-plane color="#999999" src="#grass" ...&gt;&lt;/a-plane&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Wood pattern</h2>
+						<pre><code>&lt;a-box position="0 0.5 -4" src="#wood" ...&gt;&lt;/a-box&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Sketchfab</h2>
+						<p><a href="https://sketchfab.com/">sketchfab.com</a></p>
+					</section>
+					<section>
+						<h2>Duck</h2>
+						<pre><code>&lt;a-entity
+  id="duck-model"
+  position="0 0.3 0"
+  scale="0.003 0.003 0.003"
+  gltf-model="#duck"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Racquet</h2>
+						<pre><code>&lt;a-entity
+  position="-0.75 0 2"
+  scale="0.3 0.3 0.3"
+  rotation="0 160 0"
+  gltf-model="#racquet"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Lighting and shadows</h2>
+						<p>In the spotlight.</p>
+					</section>
+					<section>
+						<h2>Directional light</h2>
+						<pre><code>&lt;a-entity
+  light="type: directional; color: #ffffff; intensity: 0.8; castShadow:true;"
+  position="10 20 10"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Hemisphere light</h2>
+						<pre><code>&lt;a-entity
+  light="type: hemisphere; color: #ffffff; groundColor: green; intensity: 0.3;"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Receiving shadows</h2>
+						<pre><code>&lt;a-plane
+  color="#999999"
+  src="#grass"
+  rotation="-90 0 0"
+  width="100"
+  height="100"
+  shadow="receive: true;"
+  static-body&gt;
+&lt;/a-plane&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Shadow of the racquet</h2>
+						<pre><code>&lt;a-entity
+  shadow="cast:true;"
+  position="-0.75 0 2"
+  scale="0.3 0.3 0.3"
+  rotation="0 160 0"
+  gltf-model="#racquet"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Shadow of the ball</h2>
+						<pre><code>&lt;a-entity
+  id="duck-model"
+  position="0 0.3 0"
+  scale="0.003 0.003 0.003"
+  gltf-model="#duck"
+  shadow="cast:true;receive:false;"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Text and fonts</h2>
+						<p>Write it down.</p>
+					</section>
+					<section>
+						<h2>Text with default font</h2>
+						<pre><code>&lt;a-text
+  value="Lorem ipsum"
+  position="-0.4 0.3 0.6"
+  color="yellow"&gt;
+&lt;/a-text&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Custom font</h2>
+						<pre><code>&lt;a-text
+  value="Lorem ipsum"
+  font="https://cdn.aframe.io/fonts/mozillavr.fnt"
+  position="-0.4 0.3 0.6"
+  color="yellow"&gt;
+&lt;/a-text&gt;</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Sounds and music</h2>
+						<p>Be audible about it.</p>
+					</section>
+					<section>
+						<h2>Sound effect</h2>
+						<pre><code>&lt;a-entity
+  id="duck-model"
+  position="0 0.3 0"
+  scale="0.003 0.003 0.003"
+  gltf-model="#duck"
+  shadow="cast:true;receive:false;"
+  sound="src: url(sfx/quack.wav); autoplay: false; loop: false;"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Ambient music</h2>
+						<pre><code>&lt;a-scene
+  stats
+  sound="src: url(sfx/cartoonish-loop.wav); loop:true; autoplay:true; volume:0.3;"&gt;
+&lt;/a-scene&gt;</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Gameplay and score</h2>
+						<p>Get the point.</p>
+					</section>
+					<section>
+						<h2>The score</h2>
+						<pre><code>&lt;a-text
+  id="score"
+  font="https://cdn.aframe.io/fonts/mozillavr.fnt"
+  value="Score: 0"
+  position="-0.4 0.3 0.6"
+  color="yellow"&gt;
+&lt;/a-text&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Updating the score</h2>
+						<pre><code>let score = 0;
+
+// ...
+
+score = score + 1;
+
+// ...
+
+qS("#score").setAttribute('text','value','Score: '+score);</code></pre>
+					</section>
+					<section>
+						<h2>Adding the bomb</h2>
+						<pre><code>&lt;a-asset-item
+  id="bomb"
+  src="models/bomb/scene.gltf"&gt;
+&lt;/a-asset-item&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Bomb model</h2>
+						<pre><code>&lt;a-entity
+  id="bomb-model"
+  position="0 -0.2 0"
+  scale="0.3 0.3 0.3"
+  gltf-model="#bomb"
+  sound="src: url(sfx/bomb.mp3); autoplay: false; loop: false;"
+  shadow="cast:true;receive:false;"&gt;
+&lt;/a-entity&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Switching models</h2>
+						<pre><code>let showDuck = true;
+
+// ...
+
+showDuck = (Math.floor(Math.random()*4)!==0)
+qS("#duck-model").setAttribute('visible',showDuck);
+qS("#bomb-model").setAttribute('visible',!showDuck);
+
+// ...
+
+if(showDuck) {
+  score = score + 1;
+  qS("#duck-model").components.sound.playSound();
+
+} else {
+  score = score - 10;
+  qS("#bomb-model").components.sound.playSound();
+}</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h1>Thanks!</h1>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<p><a href="">LINK</a></p>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<h4><a href="http://end3r.com">Andrzej Mazur</a> &bull; <a href="http://twitter.com/end3r">@end3r</a> &bull; <a href="http://enclavegames.com">Enclave Games</a></h4>
+				</section>
+			</div>
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				theme: Reveal.getQueryHash().theme,
+				transition: Reveal.getQueryHash().transition || 'linear',
+				backgroundTransition: 'slide',
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/gamepad/gamepad.js', async: true }
+				]
+			});
+		</script>
+
+		<img src="img/ender.png" style="position: absolute; bottom: 0; left: 0;" alt="Ender" />
+		<img src="img/efka.png" style="position: absolute; bottom: 0; right: 0;" alt="Efka" />
+		<a target="_blank" style="position: absolute; top: 15px; left: 15px; display: block; color: #7FBF1C; text-decoration: none; font-weight: bold;" href="https://twitter.com/end3r">@end3r</a>
+
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-10280552-6']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>		
+	</body>
+</html>
