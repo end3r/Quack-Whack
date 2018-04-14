@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quack Whack | Step 4: Images and models</title>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v3.0.2/dist/aframe-physics-system.min.js"></script>
+</head>
+<body>
+<a-scene stats>
+    <a-assets>
+        <img id="sky" src="img/sky-pattern.png">
+        <img id="grass" src="img/grass-pattern.png">
+        <img id="wood" src="img/wood.png">
+        <a-asset-item id="duck" src="models/duck/scene.gltf"></a-asset-item>
+        <a-asset-item id="racquet" src="models/racquet/scene.gltf"></a-asset-item>
+    </a-assets>
+
+    <a-camera look-controls position="0 2.5 0">
+        <a-cylinder position="1 -0.5 -5" id="weapon" radius="0.8" height="0.1" opacity="0" rotation="15 -15 225" static-body>
+            <a-entity position="-0.75 0 2" scale="0.3 0.3 0.3" rotation="0 160 0" gltf-model="#racquet"></a-entity>
+        </a-cylinder>
+    </a-camera>
+
+    <a-sky color="#DDDDDD" src="#sky"></a-sky>
+
+    <a-box position="0 0.5 -4" src="#wood" width="8" height="1.25" depth="1"></a-box>
+    <a-entity position="-3 1.13 -4" rotation="-90 0 0" geometry="primitive: circle; radius: 0.45" material="color: black;"></a-entity>
+    <a-entity position="0 1.13 -4" rotation="-90 0 0" geometry="primitive: circle; radius: 0.45" material="color: black;"></a-entity>
+    <a-entity position="3 1.13 -4" rotation="-90 0 0" geometry="primitive: circle; radius: 0.45" material="color: black;"></a-entity>
+
+    <a-box position="-4.5 0.5 -2.5" src="#wood" width="1" height="1.25" depth="4"></a-box>
+    <a-entity position="-4.5 1.13 -2" rotation="-90 0 0" geometry="primitive: circle; radius: 0.3" material="color: black;"></a-entity>
+
+    <a-box position="4.5 0.5 -2.5" src="#wood" width="1" height="1.25" depth="4"></a-box>
+    <a-entity position="4.5 1.13 -2" rotation="-90 0 0" geometry="primitive: circle; radius: 0.3" material="color: black;"></a-entity>
+
+    <a-sphere id="ball" position="0 0.5 -4" dynamic-body radius="0.3" opacity="0">
+        <a-entity id="duck-model" position="0 0.3 0" scale="0.003 0.003 0.003" gltf-model="#duck">
+        </a-entity>
+    </a-sphere>
+
+    <a-plane color="#999999" src="#grass" rotation="-90 0 0" width="100" height="100" static-body></a-plane>
+</a-scene>
+
+<script>
+const qS = (selector) => document.querySelector(selector);
+let hit = false;
+let resetId = 0;
+let duckPos = [[-4.5,1,-2],[-3,1,-4],[0,1,-4],[3,1,-4],[4.5,1,-2]]; // duck positions
+
+const resetBall = () => {
+    clearTimeout(resetId);
+    let randPos = Math.floor(Math.random()*Math.floor(5));
+    qS("#ball").body.position.set(duckPos[randPos][0],duckPos[randPos][1],duckPos[randPos][2]);
+    qS("#ball").body.velocity.set(0,8,0);
+    qS("#ball").body.angularVelocity.set(0,0,0);
+    hit = false;
+    resetId = setTimeout(resetBall,4000);
+}
+
+qS("#weapon").addEventListener('collide', (e) => {
+    let ball = qS("#ball");
+    if(e.detail.body.id === ball.body.id && !hit) {
+        hit = true;
+        clearTimeout(resetId);
+        resetId = setTimeout(resetBall,4000);
+    }
+});
+
+setTimeout(resetBall,4000);
+
+</script>
+
+</body>
+</html>
